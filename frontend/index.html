@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Manager</title>
+    <style>
+        /* Simple styling to make things look nice */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .project-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .project-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: center;
+        }
+        .project-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .project-card h3 {
+            margin-top: 10px;
+            font-size: 1.5em;
+        }
+        .project-card p {
+            color: #555;
+        }
+        .project-card a {
+            display: block;
+            margin-top: 10px;
+            color: #1e90ff;
+            text-decoration: none;
+        }
+        .project-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Project Manager</h1>
+    
+    <!-- Container for the project list -->
+    <div class="project-list" id="project-list">
+        <!-- Projects will be displayed here -->
+    </div>
+
+    <script src="/frontend/js/frontend.js"></script>
+</body>
+</html>
