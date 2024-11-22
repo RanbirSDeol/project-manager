@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create New Project</title>
+    <link rel="stylesheet" href="./css/create.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <h1>Create New Project</h1>
+    <form id="create-project-form" enctype="multipart/form-data">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" required />
+
+        <label for="progress">
+            Progress (
+            <span id="progress-text">0%</span>
+            )
+        </label>
+        <input type="range" id="progress" name="progress" min="0" max="100" value="0" step="1" required />
+
+        <label for="image">Image</label>
+        <input type="file" id="image" name="image" required />
+
+        <label for="githubLink">GitHub Link</label>
+        <input type="url" id="githubLink" name="githubLink" required />
+
+        <label for="date_created">Date Created</label>
+        <input type="date" id="date_created" name="date_created" required />
+
+        <label for="isFavorite">
+            Favorite
+            <input type="checkbox" id="isFavorite" name="isFavorite" />
+        </label>
+
+        <button type="submit">Create Project</button>
+    </form>
+
+    <a href="/home">
+        <button class="nav-button">
+            <i class="fa-solid fa-house"></i>
+        </button>
+    </a>
+
+    <script>
+        // Progress Bar Color Change Script
+        const progressBar = document.getElementById('progress');
+        const progressText = document.getElementById('progress-text');
+
+        // Function to update the progress bar color based on the progress value
+        function updateProgressBarColor() {
+            const progress = progressBar.value;
+
+            // Remove previous color classes
+            progressBar.classList.remove('red', 'yellow', 'green', 'cyan');
+
+            // Add the appropriate color class based on the progress value
+            if (progress < 30) {
+                progressBar.classList.add('red');
+            } else if (progress >= 30 && progress < 60) {
+                progressBar.classList.add('yellow');
+            } else if (progress >= 60 && progress < 100) {
+                progressBar.classList.add('green');
+            } else {
+                progressBar.classList.add('cyan');
+            }
+
+            // Update the progress text
+            progressText.textContent = `${progress}%`;
+        }
+
+        // Event listener for when the slider is moved
+        progressBar.addEventListener('input', updateProgressBarColor);
+
+        // Initial color update
+        updateProgressBarColor();
+
+        // Form submission script
+        document.getElementById('create-project-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const formData = new FormData();
+            formData.append('title', document.getElementById('title').value);
+            formData.append('progress', document.getElementById('progress').value);
+            formData.append('image', document.getElementById('image').files[0]);
+            formData.append('githubLink', document.getElementById('githubLink').value);
+            formData.append('isFavorite', document.getElementById('isFavorite').checked);
+            formData.append('date_created', document.getElementById('date_created').value); // Add the date_created field
+
+            const response = await fetch('http://localhost:5000/projects', {
+                method: 'POST',
+                body: formData,
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert('Project Created Successfully');
+                window.location.href = '/home'; // Optionally redirect after success
+            } else {
+                alert('Error: ' + result.message);
+            }
+        });
+    </script>
+</body>
+</html>

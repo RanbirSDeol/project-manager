@@ -1,0 +1,192 @@
+/* Global Reset */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+  padding: 30px;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+#create-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+input[type="checkbox"] {
+  width: auto;
+  margin-top: 10px;
+}
+
+input[type="file"] {
+  padding: 5px;
+}
+
+.submit-btn {
+  padding: 12px;
+  font-size: 18px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+.home-link {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.nav-button {
+  height: 45px;
+  width: 45px;
+  padding-left: 13.5px;
+  margin: 5px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
+.fa-solid {
+  margin-right: 10px;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* Progress Bar Styles */
+#progress {
+  padding: 5px;
+  width: 100%; /* Full width */
+  height: 25px; /* Height of the bar */
+  background-color: #ddd; /* Default background */
+  border-radius: 5px; /* Rounded corners */
+  border: none;
+  outline: none;
+  -webkit-appearance: none; /* Disable default styling in Webkit browsers */
+  appearance: none;
+  border: 0.5px solid gray;
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+/* Red progress bar */
+.red {
+    background-color: #ff6666 !important;
+}
+
+/* Yellow progress bar */
+.yellow {
+    background-color: yellow !important;
+}
+
+/* Green progress bar */
+.green {
+    background-color: #66ff33 !important;
+}
+
+/* Cyan progress bar */
+.cyan {
+    background-color: cyan !important;
+}
+
+/* Style for the thumb (the draggable part) */
+#progress::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50; /* Green color for the thumb */
+    border: 2px solid #333; /* Dark border around thumb */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+#progress::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50; /* Green color for the thumb */
+    border: 2px solid #333; /* Dark border around thumb */
+}
+
+/* Success Bar Styles */
+.success-bar {
+  display: none; /* Hidden by default */
+  position: fixed;
+  top: -50px; /* Position it above the screen initially */
+  left: 0;
+  right: 0;
+  background-color: green;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 18px;
+  transition: top 0.5s ease-in-out; /* Smooth transition for sliding */
+  z-index: 1000; /* Make sure it appears above other content */
+}
+
+.success-bar.show {
+  top: 0; /* Slide it down to the top */
+}
+
+/* Optional: Add some margin to the content below */
+body {
+  padding-top: 50px; /* Adjust depending on the height of your success bar */
+}
