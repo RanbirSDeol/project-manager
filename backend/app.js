@@ -3,17 +3,44 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const sqlite = require('sqlite3').verbose();
+const fs = require('fs');
+const multer = require('multer'); // Import multer
+const path = require('path');
 
 // Initialization
 const app = express(); // Creating our backend / app
 const PORT = 5000; // Backend port
 
+// Ensure the uploads folder exists
+const uploadsPath = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadsPath)) {
+    fs.mkdirSync(uploadsPath, { recursive: true }); // Ensure folder exists
+}
+
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(path.join(__dirname, '..', 'frontend')));
+
+// Set up storage configuration for file uploads (using Multer)
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        const uploadsPath = path.join(__dirname, 'uploads');
+        cb(null, uploadsPath);  // Store uploaded images in the "uploads" folder
+    },
+    filename: (req, file, cb) => {
+        const fileExtension = path.extname(file.originalname); // Get file extension
+        cb(null, Date.now() + fileExtension);  // Generate unique filename based on timestamp
+    }
+});
+
+const upload = multer({ storage: storage });
+
+const dbPath = path.join(__dirname, 'db', 'projects.db');
 
 // DB Connection to our projects.db
-const database = new sqlite.Database('./db/projects.db', (err) => {
+const database = new sqlite.Database(dbPath, (err) => {
     if (err) {
         console.error('Error Connecting to Database', err.message);
     } else {
@@ -48,31 +75,50 @@ app.post('/wipe-database', (req, res) => {
     })
 })
 
-// [Post a new project] |POST|: Adding a new projects into our database
-app.post('/projects', (req, res) => {
-    const {title, description, progress, image, githubLink} = req.body;
+// [POST] Adding a new project with optional image upload
+app.post('/projects', upload.single('image'), (req, res) => {
+    const { title, progress, githubLink, date_created, isFavorite } = req.body;
 
-    // Making sure that our request is complete
-    if (!title || !description || !progress || !image || !githubLink) {
-        return res.status(400).json({message: 'All fields are required'});
+    // Ensure the image is handled correctly
+    const image = req.file ? '/uploads/' + req.file.filename : ''; // Image path to be stored in DB
+
+    // Validate required fields
+    if (!title || !progress || !githubLink) {
+        return res.status(400).json({ message: 'Title, Progress, and Github Link are required' });
     }
 
-    // SQL query to insert a new project
-    const query = 'INSERT INTO projects (title, description, progress, image, githubLink) VALUES (?, ?, ?, ?, ?)';
+    // Validate progress (should be between 0 and 100)
+    if (progress < 0 || progress > 100) {
+        return res.status(400).json({ message: 'Progress must be between 0 and 100' });
+    }
 
-    database.run(query, [title, description, progress, image, githubLink], function(err) {
+    // Set default values for optional fields
+    const now = new Date().toISOString();
+    const formattedDate = date_created || now;
+    const formattedFavorite = isFavorite !== undefined ? isFavorite : 0;
+
+    // SQL query to insert a new project into the database
+    const query = `
+        INSERT INTO projects (title, progress, date_created, image, githubLink, isFavorite)
+        VALUES (?, ?, ?, ?, ?, ?)
+    `;
+
+    // Insert the project data into the database
+    database.run(query, [title, progress, formattedDate, image, githubLink, formattedFavorite], function(err) {
         if (err) {
-            return res.status(500).json({error: err.message});
+            return res.status(500).json({ error: err.message });
         }
-        // Return the project inserted w/ the ID
+
+        // Send the response with the inserted data
         res.status(201).json({
             status: 'Successful',
             id: this.lastID,
             title,
-            description,
             progress,
-            image,
-            githubLink       
+            date_created: formattedDate,
+            image,  // Image path saved in DB
+            githubLink,
+            isFavorite: formattedFavorite
         });
     });
 });
@@ -91,15 +137,33 @@ app.delete('/projects/:id', (req, res) => {
 
         // Check if the row exists
         if (this.changes == 0) {
-            return res.status(404).json({message: 'No project found with given ID'})
+            return res.status(404).json({message: 'No project found with given ID'});
         }
-
-        console.log(`Projerct with ID ${id} deleted succesfully`);
+        
+        console.log(`Project with ID ${id} deleted succesfully`);
         res.json({message: `Project with ID ${id} deleted successfully`});
     });
 });
 
+// | Routes |
+
+// Serve the index.html from frontend when accessing /home
+app.get('/home', (req, res) => {
+    const filePath = path.join(__dirname, '..', 'frontend', 'index.html'); // Adjusted path
+    res.sendFile(filePath);
+});
+
+// Serve the create.html from backend/routes when accessing /create
+app.get('/create', (req, res) => {
+    const filePath = path.join(__dirname, 'routes', 'create.html');
+    res.sendFile(filePath);
+});
+
 // Main
+
+// Serve uploaded files (images) from the 'uploads' directory
+app.use('/home', express.static(path.join(__dirname, 'uploads')));
+
 app.listen(PORT, () => {
     console.log(`Server is running @ http://localhost:${PORT}`);
 });
