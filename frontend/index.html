@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+  <!-- Success Message Top Bar -->
+  <div id="success-message" class="success-bar">
+    <p id="success-text" style="background: none;">Project deleted successfully!</p>
+  </div>
   <!-- Main -->
   <div class="main">
     <!-- Header / Navigation Bar -->
@@ -34,14 +38,45 @@
             Settings
           </button>
         </div>
-      <nav/>
+      </nav>
       <!-- Project Container -->
       <div class="project-container">
-        
+        <h1 class="section-title">
+          <a href="/create">
+            <button class="create-button">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+          </a>
+          Creations
+        </h1>
+        <!-- Project Settings -->
+        <div class="project-settings">
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <p>Show Favorites</p>
+          <label class="switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <p>NULL HOLDER</p>
+        </div>
+        <!-- Project Container -->
+        <div class="project-list" id="project-list">
+          <!-- Projects will be displayed here -->
+          <div class="project-card">
+            <img src="./images/1732223394295.png" height="200" width="200" alt="Project Image">
+            <div class="progress-container">
+              <div class="progress-bar" style="width: 25%""></div>
+            </div>
+            <p>Banking Simulation</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <!-- Scripts -->
-  <script src="./js/"></script>
+  <script src="./js/main.js"></script>
 </body>
 </html>

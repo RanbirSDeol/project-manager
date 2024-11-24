@@ -182,6 +182,39 @@ app.put("/projects/:id", upload.single("image"), (req, res) => {
   });
 });
 
+// |GET|: [/projects/:id]: Retrives a specific projects info from the database.
+app.get("/projects/:id", (req, res) => {
+  const { id } = req.params;
+
+  // SQL query to get the project details by ID
+  const query = `
+    SELECT * FROM projects WHERE id = ?
+  `;
+
+  // Run the query to get the project from the database
+  database.get(query, [id], (err, row) => {
+    if (err) {
+      console.error("Error fetching project:", err.message);
+      return res.status(500).json({ error: "Failed to fetch project" });
+    }
+
+    // Check if the project was found
+    if (!row) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    // Respond with the project details
+    res.json({
+      id: row.id,
+      title: row.title,
+      progress: row.progress,
+      githubLink: row.githubLink,
+      image: row.image, // Send back the image URL if available
+      date_created: row.date_created, // Include any other fields you want
+    });
+  });
+});
+
 // |DELETE|: [/projects/:id]: Deletes a project using its ID
 app.delete("/projects/:id", (req, res) => {
   const { id } = req.params;

@@ -15,15 +15,18 @@ html, body {
 
 /* Navigation Bar Container */
 .nav-bar {
+  position: fixed;
   display: flex;
   align-items: center;
   gap: 15px;
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+  margin-bottom: 2px;
   width: 100%;
   height: 65px;
   padding: 10px;
   padding-left: 35px;
   padding-right: 35px;
+  z-index: 999;
 }
 
 .nav-bar h1 {
@@ -32,19 +35,21 @@ html, body {
 
 /* Main Container for Content */
 .main-container {
-  
+  display: flex;
+  gap: 5px;
+  margin-left: 245px;
 }
 
 /* Side Navigation Bar */
 .side-nav {
-  position: fixed; 
+  position: fixed;
   left: 0;         
-  height: 100%;    
+  height: 100%; /* Full height of the viewport */
   width: 245px;    
   box-shadow: 1px 0 0 rgba(255, 255, 255, 0.3);
-  margin-top: 2px; 
   display: flex;
   flex-direction: column;  
+  margin-top: 66px;
   gap: 15px;
 }
 
@@ -58,6 +63,7 @@ html, body {
 }
 
 .profile-display:hover {
+  transition: color 0.3s ease;
   border: 1px solid rgba(255, 255, 255);
   cursor: pointer;
 }
@@ -65,6 +71,7 @@ html, body {
 .side-nav-button-container {
   display: flex;
   flex-direction: column;
+  justify-self: left;
   gap: 15px;
   margin: 10px;
 }
@@ -91,6 +98,7 @@ html, body {
 }
 
 .side-nav-button-container button:hover {
+  transition: color 0.3s ease;
   background-color: rgba(255, 255, 255, 0.3);
 }
 
@@ -100,5 +108,324 @@ html, body {
 
 /* Project Container */
 .project-container {
+  width: calc(100%); /* Make it take up remaining space */
+  margin-left: 2px;
+  padding: 50px;
+  height: 190vh;
+  margin-top: 66px;
+}
 
+.section-title {
+  padding-bottom: 5px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+  margin-bottom: 2px;
+}
+
+/* Switches */
+
+/* Ensure the parent container is positioned correctly */
+.project-settings {
+  padding-top: 15px;
+  display: flex;
+  justify-content: left; /* Centering the toggle */
+}
+
+/* Hide the default checkbox */
+.switch input {
+  display: none;
+}
+
+/* Style the slider */
+.switch .slider {
+  position: relative;
+  cursor: pointer;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+  display: block;
+  width: 60px;
+  height: 24px;
+}
+
+/* Before the toggle is checked */
+.switch .slider:before {
+  content: "";
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+/* When the checkbox is checked */
+.switch input:checked + .slider {
+  background-color: #4CAF50; /* Green background when checked */
+}
+
+/* Move the slider when checked */
+.switch input:checked + .slider:before {
+  transform: translateX(32px);
+}
+
+.project-settings p {
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 2.5px;
+  justify-self: center;
+}
+
+/* Project Card */
+
+.project-list {
+  margin-top: 25px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.project-card {
+  background: none;
+  padding: 20px;
+  height: 200px;
+  width: 200px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+  transition: color 0.3s ease;
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.project-card p {
+  font-size: 20px;
+  translate: -20px;
+  background: none;
+  margin-top: 2px;
+  width: 200px; /* This defines the width */
+  text-align: left;
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides the overflow */
+  text-overflow: ellipsis; /* Adds "..." at the end when the text overflows */
+}
+
+.project-card img {
+  height: 200;
+  width: 200;
+  translate: -20px;
+  background: none;
+  margin-top: -20px;
+  border-radius: 10px;
+}
+
+.project-card i {
+  background-color: yellow;
+  z-index: 1000;
+}
+
+/* Creation */
+.create-button {
+  all: unset; /* Removes all default styling */
+  background: none; /* Removes any background */
+  border: none; /* Removes the border */
+  outline: none; /* Removes outline */
+  text-decoration: none; /* Removes any text decorations like underlines */
+  cursor: pointer; /* Makes it behave like a button */
+  /* --- */
+}
+
+.create-button i:hover {
+  transition: color 0.3s ease;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.section-title a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Progress Bar */
+.progress-container {
+  translate: -15px;
+  margin-bottom: 25px;
+  width: 190px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  height: 5px;
+}
+
+.progress-bar {
+  background-color: #ff6666;
+  height: 100%;
+  width: 0%;
+  overflow: hidden;
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+* Progress Bar Styles */
+#progress {
+  padding: 5px;
+  width: 100%; /* Full width */
+  height: 25px; /* Height of the bar */
+  background-color: #ddd; /* Default background */
+  border-radius: 5px; /* Rounded corners */
+  border: none;
+  outline: none;
+  -webkit-appearance: none; /* Disable default styling in Webkit browsers */
+  appearance: none;
+  border: 0.5px solid gray;
+  transition: background-color 0.3s ease; /* Smooth color transition */
+}
+
+/* Red progress bar */
+.red {
+    background-color: #ff6666 !important;
+}
+
+/* Yellow progress bar */
+.yellow {
+    background-color: yellow !important;
+}
+
+/* Green progress bar */
+.green {
+    background-color: #66ff33 !important;
+}
+
+/* Cyan progress bar */
+.cyan {
+    background-color: cyan !important;
+}
+
+/* Style for the thumb (the draggable part) */
+#progress::-webkit-slider-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50; /* Green color for the thumb */
+    border: 2px solid #333; /* Dark border around thumb */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+#progress::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #4CAF50; /* Green color for the thumb */
+    border: 2px solid #333; /* Dark border around thumb */
+}
+
+/* Testing DELETE */
+
+/* Modal Style */
+.modal {
+  position: fixed;
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.4); /* Black with opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  height: 250px;
+  background-color: rgb(17, 18, 22);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  margin: 15% auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+}
+
+.info-container {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+.info-container img {
+  height: 200;
+  width: 200;
+  background: none;
+  border-radius: 10px;
+}
+
+.info-display {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  gap: 15px;
+}
+
+#star-icon:hover {
+  transition: color 0.3s ease;
+  color:  gray;
+}
+
+.unfavorited {
+  transition: color 0.3s ease; /* Smooth transition */
+}
+
+/* "Favorited" state */
+.favorited {
+  color: gold; /* Example color for favorited state */
+  transition: color 0.3s ease; /* Smooth transition */
+}
+
+#github-icon {
+  text-decoration: none;
+}
+
+.edit-info:hover {
+  transition: color 0.3s ease;
+  color: gray;
+}
+
+.name-display {
+  display: flex;
+  gap: 15px;
+}
+
+/* Success Bar */
+.success-bar {
+  visibility: hidden;
+  /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #28a745;
+  /* Green color for success */
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 9999;
+  /* Ensure it appears above everything else */
+  transform: translateY(-100%);
+  /* Initially off-screen */
+  transition: transform 0.5s ease-out, visibility 0s 0.5s;
+  /* Transition for transform and visibility */
+}
+
+.success-bar.show {
+  visibility: visible;
+  /* Make the success bar visible */
+  transform: translateY(0);
+  /* Slide down to visible */
+  transition: transform 0.5s ease-out, visibility 0s 0s;
+  /* Transition for transform and visibility */
 }
