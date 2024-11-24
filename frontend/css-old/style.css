@@ -1,0 +1,289 @@
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f9;
+  color: #333;
+  line-height: 1.6;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 50px;
+}
+
+.navigation-bar {
+  color: #fff;
+  padding: 20px;
+}
+
+.navigation-div {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 20px;
+}
+
+.nav-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.nav-button:hover {
+  background-color: #0056b3;
+}
+
+.nav-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: black;
+}
+
+.main-container {
+  padding: 20px;
+  margin: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.project-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px 0;
+}
+
+.project-card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.project-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.project-card h3 {
+  font-size: 22px;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.project-card p {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+.progress-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  height: 20px;
+}
+
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  transition: width 0.3s;
+}
+
+.project-card .delete-button {
+  color: red;
+}
+
+.project-card .delete-button:hover {
+  color: lightcoral;
+}
+
+.project-card .edit-nav {
+  color: black;
+  display: flex;
+  gap: 90%;
+  margin-bottom: 15px;
+}
+
+.project-card .edit-nav .edit-button,
+.project-card .edit-nav .favorite-button {
+  color: black;
+}
+
+.project-card .edit-nav .edit-button:hover,
+.project-card .edit-nav .favorite-button:hover {
+  color: gray;
+  text-decoration: none;
+}
+
+.project-card a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.project-card a:hover {
+  text-decoration: underline;
+}
+
+.controller-container {
+  display: flex;
+  padding-top: 5px;
+  justify-content: space-between;
+}
+
+.error-message {
+  text-align: center;
+  font-size: 18px;
+  color: red;
+  padding: 20px;
+}
+
+/* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.modal button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.btn.yes {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn.no {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Success Message Bar */
+.success-bar {
+  visibility: hidden;
+  /* Hidden by default */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: #28a745;
+  /* Green color for success */
+  color: white;
+  text-align: center;
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 9999;
+  /* Ensure it appears above everything else */
+  transform: translateY(-100%);
+  /* Initially off-screen */
+  transition: transform 0.5s ease-out, visibility 0s 0.5s;
+  /* Transition for transform and visibility */
+}
+
+.success-bar.show {
+  visibility: visible;
+  /* Make the success bar visible */
+  transform: translateY(0);
+  /* Slide down to visible */
+  transition: transform 0.5s ease-out, visibility 0s 0s;
+  /* Transition for transform and visibility */
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: auto;
+}
+
+.modal-content {
+  background-color: #fff;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 600px;
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: #aaa;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #000;
+}
