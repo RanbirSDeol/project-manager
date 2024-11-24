@@ -1,33 +1,35 @@
 // dbLoad | Nov 21, 2024
 // Loads the database into cards to display
 
-async function fetchProjects(params) {
+async function fetchProjects() {
   try {
-    // Lets fetch our projects from the backend
     const response = await fetch('http://localhost:5000/projects');
-
-    // If the response is not ok, throw an error
-    if (!response.ok) {
-      throw new Error('Failed to Fetch Projects');
-    }
-
-    // Parse the response JSON
+    if (!response.ok) throw new Error('Failed to Fetch Projects');
+    
     const data = await response.json();
-
-    // Get the container where we'll display the projects
     const projectList = document.getElementById('project-list');
 
-    // Sort the projects by date_created in descending order (most recent first)
+    // Sort projects by date_created in descending order
     data.projects.sort((a, b) => new Date(b.date_created) - new Date(a.date_created));
 
-    // Loop through the projects and display them on the page
-    data.projects.forEach(project => {
-      // Create a new card element for the project
+    // Clear existing project cards before reloading
+    projectList.innerHTML = '';
+
+    // Loop through the projects and create their cards
+    data.projects.forEach((project) => {
       const projectCard = document.createElement('div');
       projectCard.classList.add('project-card');
 
-      // Add the content of the card
+      // Set the content of the card dynamically
       projectCard.innerHTML = `
+        <div class="edit-nav">
+          <a href="#" class="edit-button">
+              <i class="fa-regular fa-pen-to-square"></i>
+          </a>
+          <a href="#" class="favorite-button">
+              <i class="fa-regular fa-star"></i>
+          </a>
+        </div>
         <img src="${project.image}" alt="Project Image" />
         <h3>${project.title}</h3>
         <p>Date Created: ${new Date(project.date_created).toLocaleDateString()}</p>
@@ -37,8 +39,7 @@ async function fetchProjects(params) {
         </div>
         <div class="controller-container">
           <a href="${project.githubLink}" target="_blank">
-            <i class="fa-brands fa-github"></i>
-            GitHub
+            <i class="fa-brands fa-github"></i> GitHub
           </a>
           <a href="#" class="delete-button" data-id="${project.id}" project-name="${project.title}">
             <i class="fa-solid fa-trash"></i>
@@ -46,10 +47,15 @@ async function fetchProjects(params) {
         </div>
       `;
 
-      // Now we select the progress bar element within the card
-      const progressBar = projectCard.querySelector('.progress-bar');
+      // Attach the `openEditModal` to the edit button
+      const editButton = projectCard.querySelector('.edit-button');
+      editButton.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent the default anchor behavior
+        openEditModal(project); // Pass the project object to the modal
+      });
 
-      // Set the appropriate color based on the progress percentage
+      // Update the progress bar color dynamically
+      const progressBar = projectCard.querySelector('.progress-bar');
       if (project.progress < 30) {
         progressBar.style.backgroundColor = '#ff6666';
       } else if (project.progress >= 30 && project.progress < 60) {
@@ -60,15 +66,101 @@ async function fetchProjects(params) {
         progressBar.style.backgroundColor = 'cyan';
       }
 
-      // Append the project card to the list
+      // Append the project card to the project list container
       projectList.appendChild(projectCard);
     });
   } catch (error) {
-    console.log('Error Fetching Projects:', error);
-    // Display an error message if fetching fails
-    const projectList = document.getElementById('project-list');
-    projectList.innerHTML = `<p>ERROR: Failed to load projects, please try again later</p>`;
+    console.error('Error Fetching Projects:', error);
+    document.getElementById('project-list').innerHTML = `<p>ERROR: Failed to load projects, please try again later</p>`;
   }
 }
 
+function openEditModal(project) {
+  const modal = document.getElementById('edit-modal');
+  const modalContent = document.getElementById('edit-modal-content');
+
+  modalContent.innerHTML = `
+    <h1>Edit Project</h1>
+    <form id="edit-project-form" data-project-id="${project.id}" enctype="multipart/form-data">
+      <label for="title">Title</label>
+      <input type="text" id="title" name="title" value="${project.title}" required />
+
+      <label for="progress">Progress</label>
+      <input type="number" id="progress" name="progress" value="${project.progress}" min="0" max="100" required />
+
+      <label for="image">Image</label>
+      <input type="file" id="image" name="image" />
+      <img src="${project.image}" alt="Current Project Image" id="current-image" style="max-width: 100px; margin-top: 10px;" />
+
+      <label for="githubLink">GitHub Link</label>
+      <input type="url" id="githubLink" name="githubLink" value="${project.githubLink}" required />
+
+      <label for="isFavorite">Favorite</label>
+      <input type="checkbox" id="isFavorite" name="isFavorite" ${project.isFavorite ? 'checked' : ''} />
+
+      <button type="submit">Save</button>
+    </form>
+  `;
+
+  modal.style.display = 'block'; // Show the modal
+
+  // Handle form submission
+  const form = document.getElementById('edit-project-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const updatedProject = {
+      title: form.title.value,
+      progress: form.progress.value,
+      githubLink: form.githubLink.value,
+      isFavorite: form.isFavorite.checked,
+    };
+
+    // If the user uploads a new image, add it to the updatedProject
+    const imageInput = form.querySelector('input[type="file"]');
+    if (imageInput.files.length > 0) {
+      updatedProject.image = imageInput.files[0];
+    }
+
+    const projectId = form.dataset.projectId; // Get the project ID from the form's data attribute
+
+    // Send the PUT request to update the project
+    const formData = new FormData();
+    formData.append('title', updatedProject.title);
+    formData.append('progress', updatedProject.progress);
+    formData.append('githubLink', updatedProject.githubLink);
+    formData.append('isFavorite', updatedProject.isFavorite);
+
+    // Only append the image if it's changed
+    if (updatedProject.image) {
+      formData.append('image', updatedProject.image);
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/projects/${projectId}`, {
+        method: 'PUT',
+        body: formData,
+      });
+      const data = await response.json();
+      if (response.ok) {
+        console.log('Updated Project:', data);
+        modal.style.display = 'none'; // Close the modal
+        
+        // Refresh the project list to reflect the changes
+        fetchProjects();
+      } else {
+        console.error('Error updating project:', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  });
+}
+
+// Close the modal when the close button is clicked
+document.getElementById('close-edit-modal').addEventListener('click', () => {
+document.getElementById('edit-modal').style.display = 'none';
+});
+
+// Initial call to load the projects when the page loads
 fetchProjects();

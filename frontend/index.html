@@ -1,51 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Manager</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Manager</title>
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Success Message Top Bar -->
-    <div id="success-message" class="success-bar">
-        <p id="success-text">Project deleted successfully!</p>
-    </div>
-    
-    <div class="main">
-        <nav class="navigation-bar">
-            <!-- Top Bar -->
-            <div class="navigation-div">
-                <a href="/create">
-                    <button class="nav-button">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </a>
-                <h1 class="nav-title">Project Manager</h1>
-            </div>
-            <!-- Main Content-->
-            <div class="main-container">
-                <h1 class="section-title">Creations</h1>
-                <div class="project-list" id="project-list">
-                    <!-- Projects will be displayed here -->
-                </div>      
-            </div>
-        </nav>
-    </div>
-
-    <!-- Confirmation Modal -->
-    <div id="delete-modal" class="modal">
-        <div class="modal-content">
-            <p id="delete-message"></p>
-            <div class="modal-actions">
-                <button id="delete-yes" class="btn yes">Yes</button>
-                <button id="delete-no" class="btn no">No</button>
-            </div>
+  <!-- Main -->
+  <div class="main">
+    <!-- Header / Navigation Bar -->
+    <nav class="nav-bar">
+      <i class="fa-solid fa-diagram-project fa-2xl"></i>
+      <h1>
+        Project Manager
+      </h1>
+    </nav>    
+    <div class="main-container">
+      <!-- Side Navigation Bar -->
+      <nav class="side-nav">
+        <div class="profile-display">
+          <i class="fa-solid fa-user fa-l"></i>
+          RanbirSDeol
         </div>
+        <div class="side-nav-button-container">
+          <button class="side-button" id="selected">
+            <i class="fa-regular fa-image"></i>
+            Creations
+          </button>
+          <button class="side-button">
+            <i class="fa-solid fa-bars"></i>
+            Settings
+          </button>
+        </div>
+      <nav/>
+      <!-- Project Container -->
+      <div class="project-container">
+        
+      </div>
     </div>
-
-    <script src="./js/loader.js"></script>  
-    <script src="./js/deleteProject.js"></script>  
+  </div>
+  <!-- Scripts -->
+  <script src="./js/"></script>
 </body>
 </html>

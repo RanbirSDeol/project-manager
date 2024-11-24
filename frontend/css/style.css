@@ -3,222 +3,102 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: rgb(17, 18, 22);
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  color: white;
 }
 
-body {
-  font-family: 'Arial', sans-serif;
-  background-color: #f4f4f9;
-  color: #333;
-  line-height: 1.6;
+html, body {
+  height: 100%;
+  margin: 0;
 }
 
-.main {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 50px;
-}
-
-.navigation-bar {
-  color: #fff;
-  padding: 20px;
-}
-
-.navigation-div {
+/* Navigation Bar Container */
+.nav-bar {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin: 20px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 65px;
+  padding: 10px;
+  padding-left: 35px;
+  padding-right: 35px;
 }
 
-.nav-button {
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background-color 0.3s;
+.nav-bar h1 {
+
 }
 
-.nav-button:hover {
-  background-color: #0056b3;
-}
-
-.nav-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: black;
-}
-
+/* Main Container for Content */
 .main-container {
-  padding: 20px;
-  margin: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
-.section-title {
-  font-size: 28px;
-  color: #333;
-  margin-bottom: 20px;
-}
-
-.project-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
-}
-
-.project-card {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.project-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  cursor: pointer; 
-}
-
-.project-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 15px;
-}
-
-.project-card h3 {
-  font-size: 22px;
-  margin-bottom: 10px;
-  color: black;
-}
-
-.project-card p {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-}
-
-.progress-container {
-  width: 100%;
-  background-color: #e0e0e0;
-  border-radius: 5px;
-  height: 20px;
-}
-
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  border-radius: 5px;
-  transition: width 0.3s;
-}
-
-.project-card .delete-button {
-  color: red;
-}
-
-.project-card a {
-  color: #007bff;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.project-card a:hover {
-  text-decoration: underline;
-}
-
-.controller-container {
+/* Side Navigation Bar */
+.side-nav {
+  position: fixed; 
+  left: 0;         
+  height: 100%;    
+  width: 245px;    
+  box-shadow: 1px 0 0 rgba(255, 255, 255, 0.3);
+  margin-top: 2px; 
   display: flex;
-  padding-top: 5px;
-  justify-content: space-between;
+  flex-direction: column;  
+  gap: 15px;
 }
 
-.error-message {
-  text-align: center;
-  font-size: 18px;
-  color: red;
-  padding: 20px;
-}
-
-/* Modal Styles */
-.modal {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modal-content {
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  text-align: center;
-  max-width: 400px;
-  width: 100%;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-}
-
-.modal button {
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  border-radius: 5px;
-}
-
-.btn.yes {
-  background-color: #28a745;
-  color: white;
-}
-
-.btn.no {
-  background-color: #dc3545;
-  color: white;
-}
-
-.btn:hover {
-  opacity: 0.8;
-}
-
-/* Success Message Bar */
-.success-bar {
-  visibility: hidden; /* Hidden by default */
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background-color: #28a745; /* Green color for success */
-  color: white;
-  text-align: center;
+.profile-display {
+  margin: 15px;
   padding: 15px;
-  font-size: 18px;
-  font-weight: bold;
-  z-index: 9999; /* Ensure it appears above everything else */
-  transform: translateY(-100%); /* Initially off-screen */
-  transition: transform 0.5s ease-out, visibility 0s 0.5s; /* Transition for transform and visibility */
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 15px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
-.success-bar.show {
-  visibility: visible; /* Make the success bar visible */
-  transform: translateY(0); /* Slide down to visible */
-  transition: transform 0.5s ease-out, visibility 0s 0s; /* Transition for transform and visibility */
+.profile-display:hover {
+  border: 1px solid rgba(255, 255, 255);
+  cursor: pointer;
+}
+
+.side-nav-button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin: 10px;
+}
+
+.side-nav-button-container button {
+  all: unset; /* Removes all default styling */
+  background: none; /* Removes any background */
+  border: none; /* Removes the border */
+  outline: none; /* Removes outline */
+  text-decoration: none; /* Removes any text decorations like underlines */
+  cursor: pointer; /* Makes it behave like a button */
+  /* --- */
+  width: 80%;
+  height: 40px;
+  padding: 5px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 5px;
+}
+
+.side-nav-button-container i {
+  padding-right: 15px;
+  background: none;
+}
+
+.side-nav-button-container button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.side-nav-button-container #selected {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Project Container */
+.project-container {
+
 }
