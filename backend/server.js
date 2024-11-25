@@ -210,6 +210,7 @@ app.get("/projects/:id", (req, res) => {
       progress: row.progress,
       githubLink: row.githubLink,
       image: row.image, // Send back the image URL if available
+      isFavorite: row.isFavorite,
       date_created: row.date_created, // Include any other fields you want
     });
   });
@@ -236,6 +237,53 @@ app.delete("/projects/:id", (req, res) => {
 
     console.log(`Project with ID ${id} deleted succesfully`);
     res.json({ message: `Project with ID ${id} deleted successfully` });
+  });
+});
+
+// |PUT|: [/projects/favorite/:id]: Favorites or Unfavorites project
+app.put("/projects/favorite/:id", (req, res) => {
+  const { id } = req.params;
+
+  // SQL query to get the current favorite status of the project
+  const getFavoriteQuery = `SELECT isFavorite FROM projects WHERE id = ?`;
+
+  // First, get the current favorite status
+  database.get(getFavoriteQuery, [id], (err, row) => {
+    if (err) {
+      console.error("Error fetching project:", err.message);
+      return res.status(500).json({ error: "Failed to fetch project" });
+    }
+
+    if (!row) {
+      return res.status(404).json({ message: "Project not found" });
+    }
+
+    // Toggle the favorite status (if it's "true", set it to "false"; if "false", set it to "true")
+    const newFavoriteStatus = row.isFavorite === "true" ? "false" : "true"; // Toggle the string value
+
+    // SQL query to update the favorite status
+    const updateFavoriteQuery = `
+      UPDATE projects
+      SET isFavorite = ?
+      WHERE id = ?
+    `;
+
+    // Update the favorite status
+    database.run(updateFavoriteQuery, [newFavoriteStatus, id], function (err) {
+      if (err) {
+        console.error("Error updating favorite status:", err.message);
+        return res
+          .status(500)
+          .json({ error: "Failed to update favorite status" });
+      }
+
+      // Respond with the updated project data
+      res.json({
+        message: "Project favorite status updated successfully",
+        id,
+        favorite: newFavoriteStatus === "true", // Convert "true"/"false" to boolean true/false
+      });
+    });
   });
 });
 
