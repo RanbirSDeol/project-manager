@@ -28,14 +28,28 @@ async function fetchProjects() {
       projectCard.classList.add("project-card");
       projectCard.id = project.id; // Add the ID to each card for referencing
 
-      // Set the content of the card dynamically
-      projectCard.innerHTML = `
+      if (project.isFavorite == true || project.isFavorite == "true") {
+        // Set the content of the card dynamically
+        projectCard.innerHTML = `
         <div class="progress-container">
           <div class="progress-bar" style="width: ${project.progress}%"></div>
         </div>
-        <img src="${project.image}" height="200" width="200" alt="Project Image">
+        <div class="image-container" style="position: relative; display: inline-block; padding: -5px;">
+          <i class="fa-solid fa-star" style="position: absolute; top: -10px; right: 30px; color: gold; font-size: 2rem; z-index: 1; background: none;"></i>
+          <img src="${project.image}" height="200" width="200" alt="Project Image" style="display: block; border-radius: 8px;">
+        </div>
         <p>${project.title}</p>
       `;
+      } else {
+        // Set the content of the card dynamically
+        projectCard.innerHTML = `
+        <div class="progress-container">
+          <div class="progress-bar" style="width: ${project.progress}%"></div>
+        </div>
+        <img src="${project.image}" height="200" width="200" alt="Project Image" style="display: block; border-radius: 8px;">
+        <p>${project.title}</p>
+      `;
+      }
 
       // Updating the progress bar's color
       const progressBar = projectCard.querySelector(".progress-bar");
@@ -86,8 +100,6 @@ if (!disabled_connection) {
 }
 
 // | UI |
-
-// Function to open the info modal with project data from JSON
 function openModal(project) {
   console.log("Project Data:", project); // Print the project data JSON to the console
 
@@ -104,6 +116,11 @@ function openModal(project) {
     document.body.appendChild(infoModal);
   }
 
+  let favorite =
+    project.isFavorite === true || project.isFavorite === "true"
+      ? "favorite"
+      : "unfavorite";
+
   // Set the content of the modal dynamically
   infoModal.innerHTML = `
     <div class="modal-content"> 
@@ -115,7 +132,7 @@ function openModal(project) {
               ${project.title}
             </h2>
             <button id="putRequestButton" style="border: none; background: none; cursor: pointer;">
-              <i class="fa-regular fa-star fa-2xl unfavorited" id="star-icon"></i>
+              <i class="fa-regular fa-star fa-2xl ${favorite}" id="star-icon"></i>
             </button>
           </div>
           <p>Created ${project.date_created}</p>
@@ -155,42 +172,72 @@ function openModal(project) {
 
   // Add a click event listener to the modal background to close the modal
   infoModal.addEventListener("click", function (event) {
-    // Close the modal if the user clicks outside the modal-content
     if (event.target === infoModal) {
       closeModal();
     }
   });
 
+  const editButton = document.querySelector(".edit-button");
+  if (editButton) {
+    editButton.addEventListener("click", function (event) {
+      event.preventDefault();
+      console.log("Editing:", project.id);
+    });
+  }
+
+  // Favorite Toggle
+  document.getElementById("star-icon").addEventListener("click", () => {
+    const starIcon = document.getElementById("star-icon");
+
+    // Send fetch request to toggle favorite status
+    fetch(`http://localhost:5000/projects/favorite/${project.id}`, {
+      method: "PUT",
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to update favorite status");
+        }
+        return response.json();
+      })
+      .then((updatedProject) => {
+        // Update the project data with the new favorite status
+        project.isFavorite = updatedProject.isFavorite;
+
+        // Refresh the modal with the updated project data
+        openModal(project); // Reopen the modal with updated data
+
+        fetchProjects();
+      })
+      .catch((error) => {
+        console.error("Error updating project favorite status:", error);
+      });
+  });
+
   // Add event listener for the delete button
-  const deleteButton = document.querySelector(".delete-button");
+  const deleteButton = document.querySelector(".delete-info");
   if (deleteButton) {
     deleteButton.addEventListener("click", function (event) {
-      event.preventDefault(); // Prevent default link behavior
+      event.preventDefault();
 
-      const projectId = project.id; // Get project ID
+      const projectId = project.id;
       const projectName = event.target
-        .closest(".delete-button")
-        .getAttribute("project-name"); // Get project name
+        .closest(".delete-info")
+        .getAttribute("project-name");
 
-      // Confirm the deletion
       const confirmDelete = confirm(
         `Are you sure you want to delete the project: ${projectName}?`
       );
       if (confirmDelete) {
-        // Send DELETE request to the server
-        fetch(`/projects/${projectId}`, {
-          method: "DELETE",
-        })
+        fetch(`/projects/${projectId}`, { method: "DELETE" })
           .then((response) => {
             if (response.ok) {
               alert(`Project ${projectName} deleted successfully.`);
               fetchProjects();
-              closeModal(); // Close the modal after deletion
+              closeModal();
 
               const successBar = document.getElementById("success-message");
-              successBar.classList.add("show"); // Make the success bar slide down
+              successBar.classList.add("show");
 
-              // Hide the success message after 3 seconds
               setTimeout(() => {
                 successBar.classList.remove("show");
               }, 3000);
@@ -215,19 +262,3 @@ function closeModal() {
     infoModal.style.display = "none";
   }
 }
-
-// |||| ADD QUERY ||||
-document.getElementById("star-icon").addEventListener("click", () => {
-  const starIcon = document.getElementById("star-icon");
-
-  // Toggle between 'favorited' and 'unfavorited'
-  if (starIcon.classList.contains("unfavorited")) {
-    starIcon.classList.remove("unfavorited");
-    starIcon.classList.add("favorited");
-    console.log("Star is now favorited");
-  } else {
-    starIcon.classList.remove("favorited");
-    starIcon.classList.add("unfavorited");
-    console.log("Star is now unfavorited");
-  }
-});

@@ -223,6 +223,9 @@ html, body {
   background: none;
   margin-top: -20px;
   border-radius: 10px;
+  border: 2px solid white;
+  object-fit: cover;
+  object-position: left center;
 }
 
 .project-card i {
@@ -287,22 +290,26 @@ html, body {
 
 /* Red progress bar */
 .red {
-    background-color: #ff6666 !important;
+  background-color: #ff6666 !important;
+  accent-color: #ff6666 !important;
 }
 
 /* Yellow progress bar */
 .yellow {
-    background-color: yellow !important;
+  background-color: yellow !important;
+  accent-color: yellow !important;
 }
 
 /* Green progress bar */
 .green {
-    background-color: #66ff33 !important;
+  background-color: #66ff33 !important;
+  accent-color: #66ff33 !important;
 }
 
 /* Cyan progress bar */
 .cyan {
-    background-color: cyan !important;
+  background-color: cyan !important;
+  accent-color: cyan !important;
 }
 
 /* Style for the thumb (the draggable part) */
@@ -360,6 +367,8 @@ html, body {
   width: 200;
   background: none;
   border-radius: 10px;
+  object-fit: cover;
+  object-position: left center;
 }
 
 .info-display {
@@ -367,6 +376,8 @@ html, body {
   flex-direction: column;
   justify-content: space-around;
   gap: 15px;
+  border-left: 2px solid white;
+  padding-left: 10px;
 }
 
 #star-icon:hover {
@@ -379,7 +390,7 @@ html, body {
 }
 
 /* "Favorited" state */
-.favorited {
+.favorite {
   color: gold; /* Example color for favorited state */
   transition: color 0.3s ease; /* Smooth transition */
 }
@@ -389,6 +400,16 @@ html, body {
 }
 
 .edit-info:hover {
+  transition: color 0.3s ease;
+  color: gray;
+}
+
+.delete-info:hover {
+  transition: color 0.3s ease;
+  color: red;
+}
+
+.fa-github:hover {
   transition: color 0.3s ease;
   color: gray;
 }
@@ -428,4 +449,87 @@ html, body {
   /* Slide down to visible */
   transition: transform 0.5s ease-out, visibility 0s 0s;
   /* Transition for transform and visibility */
+}
+
+.edit-info-nav {
+  display: flex;
+  padding-bottom: 15px;
+}
+
+.edit-button {
+  text-decoration: none;
+}
+
+/* create.html */
+
+.creation-form {
+  margin-top: 25px;
+}
+
+#create-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+#create-project-form input {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+#create-project-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: rgb(17, 18, 22);
+  box-shadow: 0 2px 5px gray;
+  padding: 25px;
+  width: 100%;
+  max-width: 500px;
+}
+
+label {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 2px !important;
+  font-size: 16px;
+  color: black !important;
+  background-color: white !important; /* forces the background to be white */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  height: 26px;
+}
+
+input[type="checkbox"] {
+  width: auto;
+  margin-top: 10px;
+}
+
+input[type="file"] {
+  cursor: pointer !important;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#date_created,
+#githubLink {
+  color: black !important;
+}
+
+#image-preview {
+  height: 200;
+  width: 200;
+  background: none;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px solid white;
+  object-fit: cover;
+  object-position: left center;
 }
