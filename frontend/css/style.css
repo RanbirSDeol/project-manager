@@ -374,8 +374,8 @@ html, body {
 .info-display {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  gap: 15px;
+  justify-content: space-between;
+  gap: 5px;
   border-left: 2px solid white;
   padding-left: 10px;
 }
@@ -383,6 +383,10 @@ html, body {
 #star-icon:hover {
   transition: color 0.3s ease;
   color:  gray;
+}
+
+.fa-solid.fa-star {
+  transition: color 0.3s ease;
 }
 
 .unfavorited {
@@ -395,8 +399,17 @@ html, body {
   transition: color 0.3s ease; /* Smooth transition */
 }
 
+.favorite:hover {
+  color: rgb(118, 105, 29) !important; /* Example color for favorited state */
+  transition: color 0.3s ease; /* Smooth transition */
+}
+
 #github-icon {
   text-decoration: none;
+}
+
+.edit-info {
+  margin-top: 10px !important;
 }
 
 .edit-info:hover {
@@ -453,7 +466,8 @@ html, body {
 
 .edit-info-nav {
   display: flex;
-  padding-bottom: 15px;
+  margin-top: 15px;
+  padding-left: 5px;
 }
 
 .edit-button {
