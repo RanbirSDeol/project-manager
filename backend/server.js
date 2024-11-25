@@ -59,7 +59,7 @@ app.get("/projects", (req, res) => {
   });
 });
 
-// |POST|: [/wipe-database]: Wipes our database, used for testing.
+//|POST|: [/wipe-database]: Wipes our database, used for testing.
 app.post("/wipe-database", (req, res) => {
   const query = "DELETE FROM projects";
   database.run(query, function (err) {
