@@ -147,19 +147,15 @@ app.put("/projects/:id", upload.single("image"), (req, res) => {
       .status(400)
       .json({ message: "Progress must be between 0 and 100" });
   }
-
-  // Handle image if provided
-  let image = req.file ? req.file.filename : null;
-
   // SQL query to update the project in the database
   const query = `
         UPDATE projects
-        SET title = ?, progress = ?, githubLink = ?, image = ?
+        SET title = ?, progress = ?, githubLink = ?
         WHERE id = ?
     `;
 
   // Run the update query
-  database.run(query, [title, progress, githubLink, image, id], function (err) {
+  database.run(query, [title, progress, githubLink, id], function (err) {
     if (err) {
       console.error("Error updating project:", err.message);
       return res.status(500).json({ error: "Failed to update project" });
@@ -177,7 +173,6 @@ app.put("/projects/:id", upload.single("image"), (req, res) => {
       title,
       progress,
       githubLink,
-      image: image ? `/uploads/${image}` : null, // Send back the image URL if uploaded
     });
   });
 });
