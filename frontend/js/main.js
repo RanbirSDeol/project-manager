@@ -34,7 +34,7 @@ async function fetchProjects() {
         <div class="progress-container">
           <div class="progress-bar" style="width: ${project.progress}%"></div>
         </div>
-        <div class="image-container" style="position: relative; display: inline-block; padding: -5px;">
+        <div class="image-container" style="position: relative; display: inline-block; margin-bottom: -4px;">
           <i class="fa-solid fa-star" style="position: absolute; top: -10px; right: 30px; color: gold; font-size: 2rem; z-index: 1; background: none;"></i>
           <img src="${project.image}" height="200" width="200" alt="Project Image" style="display: block; border-radius: 8px;">
         </div>
@@ -200,12 +200,22 @@ function openModal(project) {
         return response.json();
       })
       .then((updatedProject) => {
-        // Update the project data with the new favorite status
-        project.isFavorite = updatedProject.isFavorite;
+        // Add or remove the "favorite" class based on the new status
 
-        // Refresh the modal with the updated project data
-        openModal(project); // Reopen the modal with updated data
+        console.log(updatedProject);
 
+        if (
+          updatedProject.isFavorite == false ||
+          updatedProject.isFavorite == "false"
+        ) {
+          starIcon.classList.add("favorite"); // Add "favorite" class
+          starIcon.classList.remove("unfavorite"); // Remove "unfavorite" class
+        } else {
+          starIcon.classList.add("unfavorite"); // Add "unfavorite" class
+          starIcon.classList.remove("favorite"); // Remove "favorite" class
+        }
+
+        // Optionally, you can fetch projects again if needed
         fetchProjects();
       })
       .catch((error) => {

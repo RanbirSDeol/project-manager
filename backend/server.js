@@ -281,7 +281,13 @@ app.put("/projects/favorite/:id", (req, res) => {
       res.json({
         message: "Project favorite status updated successfully",
         id,
-        favorite: newFavoriteStatus === "true", // Convert "true"/"false" to boolean true/false
+        id: row.id,
+        title: row.title,
+        progress: row.progress,
+        githubLink: row.githubLink,
+        image: row.image, // Send back the image URL if available
+        isFavorite: row.isFavorite,
+        date_created: row.date_created, // Include any other fields you want
       });
     });
   });
