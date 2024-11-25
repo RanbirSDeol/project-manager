@@ -1,8 +1,6 @@
+# Project Manager
 
-# Project CRUD Application
-
-This project allows you to create, read, update, and delete projects,
-while also tracking progress using an SQLite database.
+Project Manager is a fullstack application which allows you to store, and track current projects you are working on. This application also allows you to upload an image to visually be able to see what each project represents. Moreover, you can track progress, and a favorite certain projects. Finally, you can fully manipulate projects, since this program follows CRUD: (create, read, update, and delete projects).
 
 # Using the Program
 
