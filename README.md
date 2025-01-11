@@ -28,7 +28,9 @@ npm install
 To set up the SQLite database, you'll need to run the schema to create the necessary tables. Run the following commands:
 
 ```bash
-cd /backend/db
+cd /backend
+mkdir uploads
+cd db
 sqlite3 projects.db < schema.sql
 ```
 
@@ -39,6 +41,7 @@ This will create the `projects.db` SQLite database with the correct schema.
 Run the server with the following command:
 
 ```bash
+cd ..
 npm start
 ```
 
