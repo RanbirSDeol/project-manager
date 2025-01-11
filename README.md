@@ -2,6 +2,8 @@
 
 Project Manager is a fullstack application which allows you to store, and track current projects you are working on. This application also allows you to upload an image to visually be able to see what each project represents. Moreover, you can track progress, and a favorite certain projects. Finally, you can fully manipulate projects, since this program follows CRUD: (create, read, update, and delete projects).
 
+![Photo](/public/photo.png)
+
 # Using the Program
 
 ## 1. Clone the repository
@@ -9,8 +11,8 @@ Project Manager is a fullstack application which allows you to store, and track 
 Start by cloning this repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/your-repository-name.git
-cd your-repository-name
+git clone https://github.com/RanbirSDeol/project-manager
+cd project-manager
 ```
 
 ## 2. Install dependencies
@@ -26,6 +28,7 @@ npm install
 To set up the SQLite database, you'll need to run the schema to create the necessary tables. Run the following commands:
 
 ```bash
+cd /backend/db
 sqlite3 projects.db < schema.sql
 ```
 
